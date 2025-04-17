@@ -1,0 +1,4 @@
+
+ "C:\Users\U\AppData\Roaming\Python\Python310\Scripts\pyqt6-tools.exe" designer
+
+  & "$env:USERPROFILE\AppData\Roaming\Python\Python310\Scripts\pyuic6.exe" -o cashierHome.py cashierHome.ui
