@@ -1,10 +1,10 @@
-from db.database import database
+from backend.db.database import Database
 
-class Product(database):
+class Product(Database):
 
     def addProduct(self, product):
-        sql = "INSERT INTO products (name, barcode, category ,image, stocks ) VALUES (%s, %s, %s, %s, %s)"
-        values = (product['name'], product['barcode'], product['category'], product['image'], product['stocks'])
+        sql = "INSERT INTO products (name, barcode, price ,image, stocks ) VALUES (%s, %s, %s, %s, %s)"
+        values = (product['name'], product['barcode'], product['price'], product['image'], product['stocks'])
         self.insert(sql, values)
 
     def getProducts(self):
@@ -14,6 +14,11 @@ class Product(database):
     def getProduct(self, id):
         sql = "SELECT * FROM products where product_id = %s"
         return self.getOne(sql, id)
+    
+    def getProductByBarCode(self, barcode):
+        sql = "SELECT name, category, price FROM products where barcode = %s"
+        return self.getOne(sql, barcode)
+
 
         
        

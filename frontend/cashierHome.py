@@ -113,6 +113,8 @@ class Ui_MainWindow(object):
         self.pushButton_3.setText(_translate("MainWindow", "Home"))
         self.pushButton_2.setText(_translate("MainWindow", "Receipt History"))
         self.pushButton.setText(_translate("MainWindow", "Logout"))
+
+    
     
     def closeEvent(self, event):
         self.cap.release()

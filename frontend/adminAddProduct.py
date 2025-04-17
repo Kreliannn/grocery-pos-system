@@ -7,6 +7,8 @@ from backend.utils.util import utils
 from PyQt6.QtWidgets import QFileDialog
 import shutil
 import os
+from backend.utils.util import utils
+from backend.product import Product
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -44,9 +46,9 @@ class Ui_MainWindow(object):
         self.name = QtWidgets.QLineEdit(parent=self.centralwidget)
         self.name.setGeometry(QtCore.QRect(80, 290, 351, 41))
         self.name.setObjectName("name")
-        self.category = QtWidgets.QLineEdit(parent=self.centralwidget)
-        self.category.setGeometry(QtCore.QRect(80, 370, 351, 41))
-        self.category.setObjectName("category")
+        self.price = QtWidgets.QLineEdit(parent=self.centralwidget)
+        self.price.setGeometry(QtCore.QRect(80, 370, 351, 41))
+        self.price.setObjectName("price")
         self.camera = QtWidgets.QLabel(parent=self.centralwidget)
         self.camera.setGeometry(QtCore.QRect(80, 90, 351, 131))
         self.camera.setStyleSheet("BACKGROUND: RED")
@@ -118,6 +120,12 @@ class Ui_MainWindow(object):
         self.barcodeName.setObjectName("barcodeName")
         self.addProductButton = QtWidgets.QPushButton(parent=self.centralwidget)
         self.addProductButton.setGeometry(QtCore.QRect(80, 590, 351, 51))
+
+        self.addProductButton.clicked.connect(self.addProduct)
+
+        self.fileName.setStyleSheet("color: red; font-weight: normal;")
+        self.barcodeName.setStyleSheet("color: red; font-weight: normal;")
+
         font = QtGui.QFont()
         font.setPointSize(12)
         font.setBold(True)
@@ -132,6 +140,30 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+    def addProduct(self):
+        name = self.name.text()
+        price = self.price.text()
+        barcode = self.barcodeName.text()
+        stocks = self.stocks.text()
+        image = self.fileName.text()
+
+        if not name or not price or barcode == "NO SELECTED BARCODE" or not stocks or image == "NO SELECTED IMAGE":
+            utils.alertError("Please fill in all fields.")
+            return
+        
+        myProduct = Product()
+
+        myProduct.addProduct({
+            "name": name,
+            "barcode": barcode,
+            "price": price,
+            "image": image,
+            "stocks": stocks
+        })
+        
+        utils.alertSuccess("Product added successfully.")
+        self.reset()
+     
     def saveBarcode(self, barcode_data):
         self.barcodeName.setText(barcode_data)
         self.barcodeName.setStyleSheet("color: green; font-weight: bold;")
@@ -152,6 +184,16 @@ class Ui_MainWindow(object):
             self.fileName.setText(file_name)
             self.fileName.setStyleSheet("color: green; font-weight: bold;")
 
+    def reset(self):
+        self.name.setText("")
+        self.price.setText("")
+        self.barcodeName.setText("NO SELECTED BARCODE")
+        self.barcodeName.setStyleSheet("color: black; font-weight: normal;")
+        self.stocks.setText("")
+        self.fileName.setText("NO SELECTED IMAGE")
+        self.fileName.setStyleSheet("color: black; font-weight: normal;")
+
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -159,7 +201,7 @@ class Ui_MainWindow(object):
         self.pushButton.setText(_translate("MainWindow", "Home"))
         self.label.setText(_translate("MainWindow", "ADD PRODUCT"))
         self.label_2.setText(_translate("MainWindow", "PRODUCT NAME:"))
-        self.label_3.setText(_translate("MainWindow", "PRODUCT CATEGORY:"))
+        self.label_3.setText(_translate("MainWindow", "PRODUCT PRICE:"))
         self.label_5.setText(_translate("MainWindow", "SCAN PRODUCT BARCODE:"))
         self.label_6.setText(_translate("MainWindow", "BARCODE: "))
         self.label_7.setText(_translate("MainWindow", "PRODUCT INITIAL STOCKS:"))

@@ -13,7 +13,7 @@ class Ui_MainWindow(object):
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(388, 312)
+        MainWindow.resize(806, 576)
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.loginButton = QtWidgets.QPushButton(parent=self.centralwidget)
@@ -52,11 +52,10 @@ class Ui_MainWindow(object):
         if usernameVal == "admin" and passwordVal == "123":
             self.loginAdmin = True
             print("Login successful welcome admin")
-            utils.alertSuccess("Login successful welcome admijnh")
+  
         elif usernameVal == "cashier" and passwordVal == "123":
             self.loginCashier = True
             print("Login successful welcome cashier")
-            utils.alertSuccess("Login successful welcome cashier")
         else:
             print("Invalid credentials")
             utils.alertError("Invalid credentials")
