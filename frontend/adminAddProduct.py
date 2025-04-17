@@ -53,9 +53,7 @@ class Ui_MainWindow(object):
         self.camera.setText("")
         self.camera.setObjectName("camera")
 
-
         self.cap = cv2.VideoCapture(0)
-
         
         self.timer = QTimer(MainWindow)
         self.timer.timeout.connect(lambda: utils.scanBarCodeAndUpdateFrame(self.cap, self.camera, self.saveBarcode))
