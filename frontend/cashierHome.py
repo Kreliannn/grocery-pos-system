@@ -93,7 +93,7 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def addToTable(self):
+    def addToTable(self, barcode_data):
         print("addToTable")
 
     def retranslateUi(self, MainWindow):

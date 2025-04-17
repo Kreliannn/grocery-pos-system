@@ -17,7 +17,7 @@ class utils:
             for barcode in barcodes:
                 barcode_data = barcode.data.decode('utf-8')
                 print(f"Detected barcode: {barcode_data}")
-                callBack()
+                callBack(barcode_data)
 
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             height, width, channels = frame.shape
