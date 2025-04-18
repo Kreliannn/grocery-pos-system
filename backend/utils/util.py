@@ -4,6 +4,7 @@ import numpy as np
 from pyzbar.pyzbar import decode
 from PyQt6.QtGui import QImage, QPixmap
 from PyQt6.QtWidgets import QMessageBox
+from PyQt6 import QtCore
 
 class utils:
 
@@ -42,4 +43,14 @@ class utils:
         msg.setInformativeText(message)
         msg.setWindowTitle("Success")
         msg.exec()
+    
+    @staticmethod
+    def delayCameraLoad(callback, timer, MainWindow):
+        delay = QtCore.QTimer(MainWindow)
+        delay.setInterval(timer)  
+        delay.timeout.connect(lambda: callback(MainWindow))
+        delay.setSingleShot(True) 
+        delay.start()  
+
+
 

@@ -20,12 +20,15 @@ class MyMainWindow(QMainWindow):
     def showCashierHome(self):
         self.cashierHome = cashierHomeUi()
         self.cashierHome.setupUi(self)
+        self.cashierHome.pushButton_3.clicked.connect(lambda: self.cashierHome.stopCamera())
+        self.cashierHome.pushButton_3.clicked.connect(self.showAdminDashboard)
         
 
     
     def showAdminAddProduct(self):
         self.adminAddProduct = adminAddProductUi()
         self.adminAddProduct.setupUi(self)
+        self.adminAddProduct.pushButton.clicked.connect(lambda: self.adminAddProduct.stopCamera())
         self.adminAddProduct.pushButton.clicked.connect(self.showAdminDashboard)
     
     def showAdminDashboard(self):
@@ -34,12 +37,12 @@ class MyMainWindow(QMainWindow):
 
         self.adminDashboard.pushButton_1.clicked.connect(self.showAdminAddProduct)
         self.adminDashboard.pushButton_2.clicked.connect(self.showAdminProducts)
+        self.adminDashboard.pushButton_3.clicked.connect(self.showCashierHome)
 
     def showAdminProducts(self):
         self.adminProducts = adminProductsUi()
         self.adminProducts.setupUi(self)
-    
-        #self.adminProducts.pushButton_1.clicked.connect(self.showAdminAddProduct)
+        self.adminProducts.homeButton.clicked.connect(self.showAdminDashboard)
 
 
     

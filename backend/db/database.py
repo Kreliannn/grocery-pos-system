@@ -19,6 +19,16 @@ class Database:
             print(f"Error: {err}")   
         finally:
             cursor.close()
+
+    def update(self, sql, values):
+        try:       
+            cursor = self.conn.cursor(prepared=True)  
+            cursor.execute(sql, values)
+            self.conn.commit()
+        except mysql.connector.Error as err:
+            print(f"Error: {err}")   
+        finally:
+            cursor.close()
    
     def getAll(self, sql, values = ()):
         try:       

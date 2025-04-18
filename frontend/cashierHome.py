@@ -16,17 +16,19 @@ class Ui_MainWindow(object):
         self.widget.setStyleSheet("background-color:  whitesmoke\n""")
         self.widget.setObjectName("widget")
 
-        self.cap = cv2.VideoCapture(0)
-
         
-        self.timer = QTimer(MainWindow)
-        self.timer.timeout.connect(lambda: utils.scanBarCodeAndUpdateFrame(self.cap, self.camera, self.addToTable))
-        self.timer.start(30)
+        utils.delayCameraLoad(self.startCamera, 100, MainWindow)
 
 
         self.camera = QtWidgets.QLabel(parent=self.widget)
         self.camera.setGeometry(QtCore.QRect(0, 0, 361, 371))
-        self.camera.setText("")
+        self.camera.setStyleSheet("""
+            background: whitesmoke;
+            font-size: 24px;
+            color: black;
+            qproperty-alignment: 'AlignCenter';
+        """)
+        self.camera.setText("loading......")
         self.camera.setObjectName("camera")
         self.widget_2 = QtWidgets.QWidget(parent=self.centralwidget)
         self.widget_2.setGeometry(QtCore.QRect(10, 460, 781, 101))
@@ -119,3 +121,16 @@ class Ui_MainWindow(object):
     def closeEvent(self, event):
         self.cap.release()
         event.accept()
+
+    
+    def stopCamera(self):
+        self.cap.release() 
+
+    
+    def startCamera(self, MainWindow):
+        self.cap = cv2.VideoCapture(0)
+        self.timer = QTimer(MainWindow)
+        self.timer.timeout.connect(lambda: utils.scanBarCodeAndUpdateFrame(self.cap, self.camera, self.addToTable))
+        self.timer.start(30)
+
+

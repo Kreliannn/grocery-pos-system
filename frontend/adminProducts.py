@@ -2,6 +2,7 @@ from PyQt6 import QtCore, QtWidgets
 from backend.product import Product
 from PyQt6.QtGui import QPixmap
 from backend.utils.util import utils
+from backend.product import Product
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -13,10 +14,21 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         MainWindow.setCentralWidget(self.centralwidget)
 
+        # Vertical layout for the central widget
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
+
+        # Home button
+        self.homeButton = QtWidgets.QPushButton("Home", parent=self.centralwidget)
+        self.homeButton.setFixedHeight(40)
+        self.homeButton.setStyleSheet("background: #3498db; color: white; border-radius: 5px; font-weight: bold;")
+        self.verticalLayout.addWidget(self.homeButton)
+
         # Scroll area
-        self.scrollArea = QtWidgets.QScrollArea(parent=self.centralwidget)
-        self.scrollArea.setGeometry(QtCore.QRect(50, 60, 700, 450))  # Fixed width
+        self.scrollArea = QtWidgets.QScrollArea()
         self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setObjectName("scrollArea")
+        self.verticalLayout.addWidget(self.scrollArea)
+
         self.scrollArea.setObjectName("scrollArea")
 
         self.scrollAreaContent = QtWidgets.QWidget()
@@ -25,12 +37,13 @@ class Ui_MainWindow(object):
         # Grid layout for cards
         self.gridLayout = QtWidgets.QGridLayout(self.scrollAreaContent)
 
-        myProduct = Product()
-        products = myProduct.getProducts()
+        self.myProduct = Product()
+        products = self.myProduct.getProducts()
 
         # Add product cards to grid layout
         for i, product in enumerate(products):
             card = self.createProductCard(
+                product['product_id'],
                 product['name'],
                 product['price'],
                 product['stocks'],
@@ -40,9 +53,9 @@ class Ui_MainWindow(object):
             col = i % 3
             self.gridLayout.addWidget(card, row, col)
 
-    def createProductCard(self, name, price, stocks, image):
+    def createProductCard(self, id, name, price, stocks, image):
         card = QtWidgets.QWidget()
-        card.setFixedSize(200, 350)
+        card.setFixedSize(200, 380)
         card.setStyleSheet("background: whitesmoke; border-radius: 8px; ")
 
         # Image
@@ -82,10 +95,19 @@ class Ui_MainWindow(object):
         button.setGeometry(QtCore.QRect(10, 330, 180, 30))
         button.setStyleSheet("background: green; color: white; border-radius: 5px;")
 
-        button.clicked.connect(lambda : utils.alertSuccess(name))
+        button.clicked.connect(lambda : self.updateProduct(id, input_name, input_price, input_stocks))
 
         return card
     
-    #def updateProduct(self, product):
+    def updateProduct(self, id, name, price, stocks):
+        updatedProduct = {
+            "product_id" : id ,
+            "name" : name.text() ,
+            "price" : price.text() ,
+            "stocks" : stocks.text() 
+        }
+        self.myProduct.updateProduct(updatedProduct)
+        utils.alertSuccess("Product updated")
+    
 
 

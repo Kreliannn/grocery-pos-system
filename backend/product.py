@@ -7,6 +7,11 @@ class Product(Database):
         values = (product['name'], product['barcode'], product['price'], product['image'], product['stocks'])
         self.insert(sql, values)
 
+    def updateProduct(self, product):
+        sql = "update products set name = %s, price = %s, stocks = %s where product_id = %s"
+        values = (product['name'], product['price'], product['stocks'], product['product_id'])
+        self.update(sql, values)
+
     def getProducts(self):
         sql = "SELECT * FROM products"
         return self.getAll(sql)

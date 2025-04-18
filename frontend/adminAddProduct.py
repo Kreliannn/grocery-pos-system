@@ -51,15 +51,17 @@ class Ui_MainWindow(object):
         self.price.setObjectName("price")
         self.camera = QtWidgets.QLabel(parent=self.centralwidget)
         self.camera.setGeometry(QtCore.QRect(80, 90, 351, 131))
-        self.camera.setStyleSheet("BACKGROUND: RED")
-        self.camera.setText("")
+        self.camera.setStyleSheet("""
+            background: whitesmoke;
+            font-size: 24px;
+            color: black;
+            qproperty-alignment: 'AlignCenter';
+        """)
+        self.camera.setText("loading......")
         self.camera.setObjectName("camera")
 
-        self.cap = cv2.VideoCapture(0)
-        
-        self.timer = QTimer(MainWindow)
-        self.timer.timeout.connect(lambda: utils.scanBarCodeAndUpdateFrame(self.cap, self.camera, self.saveBarcode))
-        self.timer.start(30)
+
+        utils.delayCameraLoad(self.startCamera, 100, MainWindow)
 
         self.label_5 = QtWidgets.QLabel(parent=self.centralwidget)
         self.label_5.setGeometry(QtCore.QRect(80, 70, 211, 16))
@@ -210,3 +212,17 @@ class Ui_MainWindow(object):
         self.fileName.setText(_translate("MainWindow", "NO SELECTED IMAGE"))
         self.barcodeName.setText(_translate("MainWindow", "NO SELECTED BARCODE"))
         self.addProductButton.setText(_translate("MainWindow", "ADD PRODUCT"))
+
+    def closeEvent(self, event):
+        self.cap.release()
+        event.accept()
+
+    def stopCamera(self):
+        self.cap.release() 
+
+    def startCamera(self, MainWindow):
+        self.cap = cv2.VideoCapture(0)
+        self.timer = QTimer(MainWindow)
+        self.timer.timeout.connect(lambda: utils.scanBarCodeAndUpdateFrame(self.cap, self.camera, self.saveBarcode))
+        self.timer.start(30)
+
