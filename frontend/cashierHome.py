@@ -183,8 +183,8 @@ class Ui_MainWindow(object):
                     "transaction_id" :  transactionId
                 }
                 self.mySoldProduct.addSoldProduct(item)
-                
-            self.myTransaction(self.recipt)
+
+            self.myTransaction.addTransaction(self.recipt)
         else:
             utils.alertError("kulang")
 

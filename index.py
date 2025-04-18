@@ -9,7 +9,8 @@ from frontend.adminProducts  import Ui_MainWindow as adminProductsUi
 class MyMainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.showCashierHome()
+        self.showAdminProducts()
+        #self.showAdminAddProduct()
 
     def showLoginPage(self):
         self.login = loginPageUi()

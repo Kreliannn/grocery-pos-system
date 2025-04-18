@@ -63,6 +63,8 @@ class Ui_MainWindow(object):
 
         utils.delayCameraLoad(self.startCamera, 100, MainWindow)
 
+        self.newFileName = ""
+
         self.label_5 = QtWidgets.QLabel(parent=self.centralwidget)
         self.label_5.setGeometry(QtCore.QRect(80, 70, 211, 16))
         font = QtGui.QFont()
@@ -147,9 +149,9 @@ class Ui_MainWindow(object):
         price = self.price.text()
         barcode = self.barcodeName.text()
         stocks = self.stocks.text()
-        image = self.fileName.text()
+        image = self.newFileName
 
-        if not name or not price or barcode == "NO SELECTED BARCODE" or not stocks or image == "NO SELECTED IMAGE":
+        if not name or not price or barcode == "NO SELECTED BARCODE" or not stocks or not image:
             utils.alertError("Please fill in all fields.")
             return
         
@@ -178,12 +180,14 @@ class Ui_MainWindow(object):
             os.makedirs(upload_folder, exist_ok=True) 
 
             file_name = os.path.basename(file_path)
-            
-            new_file_name = utils.generateId() + ".jpg"
+            ext = os.path.splitext(file_path)[1] 
+            new_file_name = utils.generateId() + ext
             destination = os.path.join(upload_folder, new_file_name)
 
             shutil.copy(file_path, destination)
             print(f"File saved to: {destination}")
+
+            self.newFileName = new_file_name
 
             self.fileName.setText(file_name)
             self.fileName.setStyleSheet("color: green; font-weight: bold;")
@@ -198,6 +202,18 @@ class Ui_MainWindow(object):
         self.fileName.setStyleSheet("color: black; font-weight: normal;")
 
 
+    def closeEvent(self, event):
+        self.cap.release()
+        event.accept()
+
+    def stopCamera(self):
+        self.cap.release() 
+
+    def startCamera(self, MainWindow):
+        self.cap = cv2.VideoCapture(0)
+        self.timer = QTimer(MainWindow)
+        self.timer.timeout.connect(lambda: utils.scanBarCodeAndUpdateFrame(self.cap, self.camera, self.saveBarcode))
+        self.timer.start(30)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -214,17 +230,3 @@ class Ui_MainWindow(object):
         self.fileName.setText(_translate("MainWindow", "NO SELECTED IMAGE"))
         self.barcodeName.setText(_translate("MainWindow", "NO SELECTED BARCODE"))
         self.addProductButton.setText(_translate("MainWindow", "ADD PRODUCT"))
-
-    def closeEvent(self, event):
-        self.cap.release()
-        event.accept()
-
-    def stopCamera(self):
-        self.cap.release() 
-
-    def startCamera(self, MainWindow):
-        self.cap = cv2.VideoCapture(0)
-        self.timer = QTimer(MainWindow)
-        self.timer.timeout.connect(lambda: utils.scanBarCodeAndUpdateFrame(self.cap, self.camera, self.saveBarcode))
-        self.timer.start(30)
-
