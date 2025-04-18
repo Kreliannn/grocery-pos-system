@@ -52,13 +52,7 @@ class utils:
         delay.setSingleShot(True) 
         delay.start()  
 
-    @staticmethod
-    def getTotal(cart):
-        total = 0
-        for i in cart:
-            total = total + i['total']
-        return total
-
+ 
 
 
 

@@ -7,6 +7,7 @@ from PyQt6.QtWidgets import QInputDialog
 from backend.utils.util import utils
 from backend.product import Product
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         self.mainWindow = MainWindow
@@ -21,7 +22,17 @@ class Ui_MainWindow(object):
 
         self.myProduct = Product()
 
+        mockUpData = [
+            "8851198048525",
+            "4800016091117",
+            "8851198048525",
+            "4800361417235",
+            "4800016091117"
+        ]
+
         self.cart = []
+
+        QtCore.QTimer.singleShot(5000, lambda: [self.addToTable(barcode) for barcode in mockUpData])
 
         utils.delayCameraLoad(self.startCamera, 100, MainWindow)
 
@@ -113,13 +124,25 @@ class Ui_MainWindow(object):
                 self.tableWidget.setItem(row_position, 1, QtWidgets.QTableWidgetItem(str(qty)))
                 self.tableWidget.setItem(row_position, 2, QtWidgets.QTableWidgetItem(str(product['price'])))   
                 self.tableWidget.setItem(row_position, 3, QtWidgets.QTableWidgetItem(str(total)))
+                self.tableWidget.verticalHeader().sectionClicked.connect(lambda: self.deleteRow(row_position, product["product_id"]))
+
                 self.cart.append({
+                    "product_id" : product['product_id'],
                     "name" : product['name'],
                     "qty" : qty,
                     "total" : total
                 })
+                self.updateTotal()
         else:
              utils.alertError("not found")
+
+  
+    def updateTotal(self):
+        total = 0
+        for obj in self.cart:
+            total = total + obj['total']
+        self.total.setText(str(total))
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -139,7 +162,11 @@ class Ui_MainWindow(object):
         self.pushButton_2.setText(_translate("MainWindow", "Receipt History"))
         self.pushButton.setText(_translate("MainWindow", "Logout"))
 
-    
+    def deleteRow(self, row, id):
+        self.tableWidget.removeRow(row)
+        self.cart = [item for item in self.cart if item["product_id"] != id]
+        self.updateTotal()
+
     
     def closeEvent(self, event):
         self.cap.release()
