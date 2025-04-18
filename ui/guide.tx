@@ -3,20 +3,3 @@
 
   & "$env:USERPROFILE\AppData\Roaming\Python\Python310\Scripts\pyuic6.exe" -o card.py card.ui
 
-  -- Create the table
-CREATE TABLE product (
-    product_id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100),
-    price DECIMAL(10, 2),
-    image VARCHAR(255),
-    barcode VARCHAR(50),
-    stocks INT
-);
-
--- Insert mockup data
-INSERT INTO product (name, price, image, barcode, stocks) VALUES
-('Coca-Cola 1L', 35.00, 'coke1l.png', '1234567890123', 50),
-('Pepsi 1L', 33.50, 'pepsi1l.png', '1234567890456', 30),
-('Mountain Dew 500ml', 25.00, 'dew500ml.png', '1234567890789', 40),
-('Sprite 1.5L', 38.00, 'sprite1.5l.png', '1234567890111', 25),
-('Royal 1.5L', 37.50, 'royal1.5l.png', '1234567890222', 20);
