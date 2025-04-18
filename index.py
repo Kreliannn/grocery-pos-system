@@ -22,6 +22,9 @@ class MyMainWindow(QMainWindow):
         self.cashierHome.setupUi(self)
         self.cashierHome.pushButton_3.clicked.connect(lambda: self.cashierHome.stopCamera())
         self.cashierHome.pushButton_3.clicked.connect(self.showAdminDashboard)
+        self.cashierHome.pushButton_4.clicked.connect(lambda: self.cashierHome.stopCamera() if self.cashierHome.recipt else print("kulang"))
+        self.cashierHome.pushButton_4.clicked.connect(lambda: self.showLoginPage() if self.cashierHome.recipt else print("kulang"))
+
         
 
     

@@ -6,6 +6,10 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QInputDialog
 from backend.utils.util import utils
 from backend.product import Product
+from datetime import date
+
+
+
 
 
 class Ui_MainWindow(object):
@@ -20,6 +24,8 @@ class Ui_MainWindow(object):
         self.widget.setStyleSheet("background-color:  whitesmoke\n""")
         self.widget.setObjectName("widget")
 
+
+        self.recipt = {}
 
         self.myProduct = Product()
 
@@ -154,10 +160,15 @@ class Ui_MainWindow(object):
     def proceedToPayment(self):
         dialog = utils.askPopUp(self.mainWindow, "Enter Customer Payment: ")
         ok = dialog.exec()
-        payment = dialog.intValue() 
+        paymentVal = dialog.intValue() 
 
-        if(payment >= self.getTotal()):
-            utils.alertSuccess("payed")
+        if(paymentVal >= self.getTotal()):
+            self.recipt = {
+                "date":  date.today(),
+                "total": self.getTotal(),
+                "payment": paymentVal,
+                "change": paymentVal - self.getTotal()
+            }
         else:
             utils.alertError("kulang")
 
