@@ -3,10 +3,13 @@ import cv2
 from PyQt6.QtCore import QTimer
 from PyQt6.QtGui import QImage, QPixmap
 from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtWidgets import QInputDialog
 from backend.utils.util import utils
+from backend.product import Product
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+        self.mainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(806, 576)
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
@@ -16,7 +19,10 @@ class Ui_MainWindow(object):
         self.widget.setStyleSheet("background-color:  whitesmoke\n""")
         self.widget.setObjectName("widget")
 
-        
+        self.myProduct = Product()
+
+        self.cart = []
+
         utils.delayCameraLoad(self.startCamera, 100, MainWindow)
 
 
@@ -95,8 +101,25 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
-    def addToTable(self, barcode_data):
-        print("addToTable")
+    def addToTable(self, barcode):
+        product = self.myProduct.getProductByBarCode(barcode)
+        if product:
+            qty, ok = QInputDialog.getInt(self.mainWindow, "Quantity", "Enter quantity:")
+            if ok:
+                total = qty * product['price']; 
+                row_position = self.tableWidget.rowCount() 
+                self.tableWidget.insertRow(row_position)
+                self.tableWidget.setItem(row_position, 0, QtWidgets.QTableWidgetItem(product['name']))
+                self.tableWidget.setItem(row_position, 1, QtWidgets.QTableWidgetItem(str(qty)))
+                self.tableWidget.setItem(row_position, 2, QtWidgets.QTableWidgetItem(str(product['price'])))   
+                self.tableWidget.setItem(row_position, 3, QtWidgets.QTableWidgetItem(str(total)))
+                self.cart.append({
+                    "name" : product['name'],
+                    "qty" : qty,
+                    "total" : total
+                })
+        else:
+             utils.alertError("not found")
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

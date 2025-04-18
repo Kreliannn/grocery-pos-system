@@ -18,7 +18,7 @@ class utils:
             for barcode in barcodes:
                 barcode_data = barcode.data.decode('utf-8')
                 print(f"Detected barcode: {barcode_data}")
-                callBack(barcode_data)
+                callBack( str(barcode_data) )
 
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             height, width, channels = frame.shape
@@ -51,6 +51,14 @@ class utils:
         delay.timeout.connect(lambda: callback(MainWindow))
         delay.setSingleShot(True) 
         delay.start()  
+
+    @staticmethod
+    def getTotal(cart):
+        total = 0
+        for i in cart:
+            total = total + i['total']
+        return total
+
 
 
 

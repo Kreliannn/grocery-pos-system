@@ -21,8 +21,10 @@ class Product(Database):
         return self.getOne(sql, id)
     
     def getProductByBarCode(self, barcode):
-        sql = "SELECT name, category, price FROM products where barcode = %s"
+        sql = "SELECT name, price, stocks, product_id FROM products where barcode = %s"
         return self.getOne(sql, barcode)
+    
+    
 
 
         

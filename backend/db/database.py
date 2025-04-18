@@ -46,8 +46,8 @@ class Database:
     def getOne(self, sql, id):
         try:       
             cursor = self.conn.cursor(prepared=True, dictionary=True)  
-            cursor.execute(sql, id)
-            result = cursor.fetchall()
+            cursor.execute(sql, [id])
+            result = cursor.fetchone()
             return result
         except mysql.connector.Error as err:
             print(f"Error: {err}")   
