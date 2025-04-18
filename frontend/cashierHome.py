@@ -37,6 +37,8 @@ class Ui_MainWindow(object):
         utils.delayCameraLoad(self.startCamera, 100, MainWindow)
 
 
+
+
         self.camera = QtWidgets.QLabel(parent=self.widget)
         self.camera.setGeometry(QtCore.QRect(0, 0, 361, 371))
         self.camera.setStyleSheet("""
@@ -77,7 +79,7 @@ class Ui_MainWindow(object):
         self.pushButton_4.setStyleSheet("BACKGROUND : GREEN; COLOR :WHITE")
         self.pushButton_4.setObjectName("pushButton_4")
         self.tableWidget = QtWidgets.QTableWidget(parent=self.centralwidget)
-        self.tableWidget.setGeometry(QtCore.QRect(380, 80, 411, 371))
+        self.tableWidget.setGeometry(QtCore.QRect(380, 80, 411, 325))
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(4)
         self.tableWidget.setRowCount(0)
@@ -89,6 +91,15 @@ class Ui_MainWindow(object):
         self.tableWidget.setHorizontalHeaderItem(2, item)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(3, item)
+
+        # Add "Delete Last Item" button below the table
+        self.deleteLastBtn = QtWidgets.QPushButton(parent=self.centralwidget)
+        self.deleteLastBtn.setGeometry(QtCore.QRect(380, 410, 411, 40))  # Adjust size/position as needed
+        self.deleteLastBtn.setStyleSheet("background-color: red; color: white; font-size: 18px;")
+        self.deleteLastBtn.setText("Delete Last Item")
+        self.deleteLastBtn.clicked.connect(self.removeLastItem)
+
+
         self.horizontalLayoutWidget = QtWidgets.QWidget(parent=self.centralwidget)
         self.horizontalLayoutWidget.setGeometry(QtCore.QRect(10, 10, 781, 61))
         self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
@@ -109,6 +120,8 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
+        self.pushButton_4.clicked.connect(self.deleteRow)
+
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -124,8 +137,7 @@ class Ui_MainWindow(object):
                 self.tableWidget.setItem(row_position, 1, QtWidgets.QTableWidgetItem(str(qty)))
                 self.tableWidget.setItem(row_position, 2, QtWidgets.QTableWidgetItem(str(product['price'])))   
                 self.tableWidget.setItem(row_position, 3, QtWidgets.QTableWidgetItem(str(total)))
-                self.tableWidget.verticalHeader().sectionClicked.connect(lambda: self.deleteRow(row_position, product["product_id"]))
-
+                
                 self.cart.append({
                     "product_id" : product['product_id'],
                     "name" : product['name'],
@@ -144,27 +156,10 @@ class Ui_MainWindow(object):
         self.total.setText(str(total))
 
 
-    def retranslateUi(self, MainWindow):
-        _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.label.setText(_translate("MainWindow", "TOTAL:"))
-        self.total.setText(_translate("MainWindow", "0"))
-        self.pushButton_4.setText(_translate("MainWindow", "PAY"))
-        item = self.tableWidget.horizontalHeaderItem(0)
-        item.setText(_translate("MainWindow", "product"))
-        item = self.tableWidget.horizontalHeaderItem(1)
-        item.setText(_translate("MainWindow", "qty"))
-        item = self.tableWidget.horizontalHeaderItem(2)
-        item.setText(_translate("MainWindow", "price"))
-        item = self.tableWidget.horizontalHeaderItem(3)
-        item.setText(_translate("MainWindow", "total"))
-        self.pushButton_3.setText(_translate("MainWindow", "Home"))
-        self.pushButton_2.setText(_translate("MainWindow", "Receipt History"))
-        self.pushButton.setText(_translate("MainWindow", "Logout"))
-
-    def deleteRow(self, row, id):
-        self.tableWidget.removeRow(row)
-        self.cart = [item for item in self.cart if item["product_id"] != id]
+    def removeLastItem(self):
+        row_position = self.tableWidget.rowCount() - 1
+        self.tableWidget.removeRow(row_position)
+        self.cart.pop()
         self.updateTotal()
 
     
@@ -182,5 +177,23 @@ class Ui_MainWindow(object):
         self.timer = QTimer(MainWindow)
         self.timer.timeout.connect(lambda: utils.scanBarCodeAndUpdateFrame(self.cap, self.camera, self.addToTable))
         self.timer.start(30)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.label.setText(_translate("MainWindow", "TOTAL:"))
+        self.total.setText(_translate("MainWindow", "0"))
+        self.pushButton_4.setText(_translate("MainWindow", "PAY"))
+        item = self.tableWidget.horizontalHeaderItem(0)
+        item.setText(_translate("MainWindow", "product"))
+        item = self.tableWidget.horizontalHeaderItem(1)
+        item.setText(_translate("MainWindow", "qty"))
+        item = self.tableWidget.horizontalHeaderItem(2)
+        item.setText(_translate("MainWindow", "price"))
+        item = self.tableWidget.horizontalHeaderItem(3)
+        item.setText(_translate("MainWindow", "total"))
+        self.pushButton_3.setText(_translate("MainWindow", "Home"))
+        self.pushButton_2.setText(_translate("MainWindow", "Receipt History"))
+        self.pushButton.setText(_translate("MainWindow", "Logout"))
 
 
