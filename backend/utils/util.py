@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from pyzbar.pyzbar import decode
 from PyQt6.QtGui import QImage, QPixmap
-from PyQt6.QtWidgets import QMessageBox
+from PyQt6.QtWidgets import QMessageBox, QInputDialog
 from PyQt6 import QtCore
 
 class utils:
@@ -52,7 +52,20 @@ class utils:
         delay.setSingleShot(True) 
         delay.start()  
 
- 
+    @staticmethod
+    def askPopUp(mainWindow, label, defaultValue = 0):
+        dialog = QInputDialog(mainWindow)
+        dialog.setInputMode(QInputDialog.InputMode.IntInput)
+        dialog.setWindowTitle("Enter Value")
+        dialog.setLabelText(label)
+        dialog.setIntRange(1, 99999)
+        dialog.setIntValue(1)
+        font = dialog.font()
+        font.setPointSize(16) 
+        dialog.setFont(font)
+        dialog.resize(400, 200)  
+        dialog.setIntValue(defaultValue) 
+        return dialog
 
 
 

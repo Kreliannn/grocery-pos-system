@@ -20,23 +20,12 @@ class Ui_MainWindow(object):
         self.widget.setStyleSheet("background-color:  whitesmoke\n""")
         self.widget.setObjectName("widget")
 
-        self.myProduct = Product()
 
-        mockUpData = [
-            "8851198048525",
-            "4800016091117",
-            "8851198048525",
-            "4800361417235",
-            "4800016091117"
-        ]
+        self.myProduct = Product()
 
         self.cart = []
 
-        QtCore.QTimer.singleShot(5000, lambda: [self.addToTable(barcode) for barcode in mockUpData])
-
         utils.delayCameraLoad(self.startCamera, 100, MainWindow)
-
-
 
 
         self.camera = QtWidgets.QLabel(parent=self.widget)
@@ -120,7 +109,7 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-        self.pushButton_4.clicked.connect(self.deleteRow)
+        self.pushButton_4.clicked.connect(self.proceedToPayment)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -128,7 +117,10 @@ class Ui_MainWindow(object):
     def addToTable(self, barcode):
         product = self.myProduct.getProductByBarCode(barcode)
         if product:
-            qty, ok = QInputDialog.getInt(self.mainWindow, "Quantity", "Enter quantity:")
+            dialog = utils.askPopUp(self.mainWindow, "product quantity:", 1)
+            ok = dialog.exec()
+            qty = dialog.intValue() 
+
             if ok:
                 total = qty * product['price']; 
                 row_position = self.tableWidget.rowCount() 
@@ -150,11 +142,24 @@ class Ui_MainWindow(object):
 
   
     def updateTotal(self):
+        total = self.getTotal()
+        self.total.setText(str(total))
+
+    def getTotal(self):
         total = 0
         for obj in self.cart:
             total = total + obj['total']
-        self.total.setText(str(total))
+        return total
 
+    def proceedToPayment(self):
+        dialog = utils.askPopUp(self.mainWindow, "Enter Customer Payment: ")
+        ok = dialog.exec()
+        payment = dialog.intValue() 
+
+        if(payment >= self.getTotal()):
+            utils.alertSuccess("payed")
+        else:
+            utils.alertError("kulang")
 
     def removeLastItem(self):
         row_position = self.tableWidget.rowCount() - 1
