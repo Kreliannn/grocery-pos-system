@@ -16,7 +16,6 @@ class Ui_MainWindow(object):
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setObjectName("verticalLayout")
 
-        # 5 buttons (no logic)
         self.pushButton_1 = QtWidgets.QPushButton(parent=self.verticalLayoutWidget)
         self.pushButton_1.setText("Button 1")
         self.verticalLayout.addWidget(self.pushButton_1)

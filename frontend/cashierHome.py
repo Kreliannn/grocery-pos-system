@@ -6,6 +6,8 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QInputDialog
 from backend.utils.util import utils
 from backend.product import Product
+from backend.transaction import Transaction
+from backend.soldProduct import SoldProduct
 from datetime import date
 
 
@@ -28,6 +30,8 @@ class Ui_MainWindow(object):
         self.recipt = {}
 
         self.myProduct = Product()
+        self.mySoldProduct = SoldProduct()
+        self.myTransaction = Transaction()
 
         self.cart = []
 
@@ -163,12 +167,24 @@ class Ui_MainWindow(object):
         paymentVal = dialog.intValue() 
 
         if(paymentVal >= self.getTotal()):
+            transactionId = utils.generateId()
             self.recipt = {
+                "transaction_id" : transactionId,
                 "date":  date.today(),
                 "total": self.getTotal(),
                 "payment": paymentVal,
-                "change": paymentVal - self.getTotal()
+                "customer_change": paymentVal - self.getTotal()
             }
+
+            for cartItem in self.cart:
+                item = {
+                    "qty" : cartItem['qty'],
+                    "product_id" : cartItem['product_id'],
+                    "transaction_id" :  transactionId
+                }
+                self.mySoldProduct.addSoldProduct(item)
+                
+            self.myTransaction(self.recipt)
         else:
             utils.alertError("kulang")
 
