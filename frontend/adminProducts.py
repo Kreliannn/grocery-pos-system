@@ -64,7 +64,7 @@ class Ui_MainWindow(object):
         image_label.setStyleSheet("border-top-left-radius: 8px; border-top-right-radius: 8px;")
 
         # Load image from path
-        pixmap = QPixmap("frontend/img/" + image)
+        pixmap = QPixmap("frontend/product_img/" + image)
         scaled_pixmap = pixmap.scaled(200, 150, QtCore.Qt.AspectRatioMode.KeepAspectRatioByExpanding, QtCore.Qt.TransformationMode.SmoothTransformation)
         image_label.setPixmap(scaled_pixmap)
         image_label.setScaledContents(True)

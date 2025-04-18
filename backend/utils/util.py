@@ -5,6 +5,9 @@ from pyzbar.pyzbar import decode
 from PyQt6.QtGui import QImage, QPixmap
 from PyQt6.QtWidgets import QMessageBox, QInputDialog
 from PyQt6 import QtCore
+import uuid
+
+
 
 class utils:
 
@@ -66,6 +69,10 @@ class utils:
         dialog.resize(400, 200)  
         dialog.setIntValue(defaultValue) 
         return dialog
+
+    @staticmethod
+    def generateId():
+        return str(uuid.uuid4())
 
 
 

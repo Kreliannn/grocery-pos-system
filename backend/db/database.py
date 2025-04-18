@@ -41,7 +41,8 @@ class Database:
         finally:
             cursor.close()
  
-     
+
+
     
     def getOne(self, sql, id):
         try:       

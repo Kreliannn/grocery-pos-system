@@ -174,11 +174,13 @@ class Ui_MainWindow(object):
     def open_file_dialog(self, MainWindow):
           file_path, _ = QFileDialog.getOpenFileName(MainWindow, "Open File", "", "All Files (*)")
           if file_path:
-            upload_folder = os.path.join(os.getcwd(), 'frontend/img')
+            upload_folder = os.path.join(os.getcwd(), 'frontend/product_img')
             os.makedirs(upload_folder, exist_ok=True) 
 
             file_name = os.path.basename(file_path)
-            destination = os.path.join(upload_folder, file_name)
+            
+            new_file_name = utils.generateId() + ".jpg"
+            destination = os.path.join(upload_folder, new_file_name)
 
             shutil.copy(file_path, destination)
             print(f"File saved to: {destination}")
