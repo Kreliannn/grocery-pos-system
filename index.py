@@ -7,11 +7,12 @@ from frontend.adminDashboard import Ui_MainWindow as adminDashboardUi
 from frontend.adminProducts  import Ui_MainWindow as adminProductsUi
 from frontend.cashierReciept  import Ui_MainWindow as cashierReciptUi
 from frontend.adminSalesTracker import Ui_MainWindow as adminSalesTrackerUi
+from frontend.recieptHistory import Ui_MainWindow as recieptHistoryUi
 
 class MyMainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.showAdminSalesTracker()
+        self.showRecieptHistory()
         #self.showCashierReciept()
 
     def showLoginPage(self):
@@ -32,7 +33,11 @@ class MyMainWindow(QMainWindow):
         self.cashierHome = cashierReciptUi(transaction_id)
         self.cashierHome.setupUi(self)
         self.cashierHome.home.clicked.connect(self.showAdminDashboard)
-      
+    
+    def showRecieptHistory(self):
+        self.recieptHistory = recieptHistoryUi()
+        self.recieptHistory.setupUi(self)
+        self.recieptHistory.homeButton.clicked.connect(self.showAdminDashboard)
 
     def showAdminAddProduct(self):
         self.adminAddProduct = adminAddProductUi()
