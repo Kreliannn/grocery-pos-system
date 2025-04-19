@@ -6,11 +6,12 @@ from frontend.adminAddProduct import Ui_MainWindow as adminAddProductUi
 from frontend.adminDashboard import Ui_MainWindow as adminDashboardUi
 from frontend.adminProducts  import Ui_MainWindow as adminProductsUi
 from frontend.cashierReciept  import Ui_MainWindow as cashierReciptUi
+from frontend.adminSalesTracker import Ui_MainWindow as adminSalesTrackerUi
 
 class MyMainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.showAdminDashboard()
+        self.showAdminSalesTracker()
         #self.showCashierReciept()
 
     def showLoginPage(self):
@@ -51,6 +52,11 @@ class MyMainWindow(QMainWindow):
         self.adminProducts = adminProductsUi()
         self.adminProducts.setupUi(self)
         self.adminProducts.homeButton.clicked.connect(self.showAdminDashboard)
+
+    def showAdminSalesTracker(self):
+        self.adminSalesTracker = adminSalesTrackerUi()
+        self.adminSalesTracker.setupUi(self)
+        self.adminSalesTracker.homeButton.clicked.connect(self.showAdminDashboard)
     
 if __name__ == "__main__":
     app = QApplication(sys.argv)
