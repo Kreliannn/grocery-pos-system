@@ -185,6 +185,8 @@ class Ui_MainWindow(object):
                 self.mySoldProduct.addSoldProduct(item)
 
             self.myTransaction.addTransaction(self.recipt)
+
+            self.transaction_id = transactionId
         else:
             utils.alertError("kulang")
 

@@ -8,5 +8,6 @@ class SoldProduct(Database):
         self.insert(sql, values)
 
     def getSoldProducts(self, transaction_id):
-        sql = "select * from soldProduct where transaction_id = %s"
-        return self.getAll(sql, transaction_id)
+        sql = "select * from soldproduct join products on soldProduct.product_id = products.product_id where transaction_id = %s"
+        values = [transaction_id]
+        return self.getAll(sql, values)
