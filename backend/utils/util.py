@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from pyzbar.pyzbar import decode
 from PyQt6.QtGui import QImage, QPixmap
-from PyQt6.QtWidgets import QMessageBox, QInputDialog
+from PyQt6.QtWidgets import QMessageBox, QInputDialog,  QSpacerItem, QSizePolicy
 from PyQt6 import QtCore
 import uuid
 
@@ -30,22 +30,73 @@ class utils:
             camera.setPixmap(QPixmap.fromImage(q_img))
 
     @staticmethod
-    def alertError(message):
+    def alertError(message):  
         msg = QMessageBox()
         msg.setIcon(QMessageBox.Icon.Critical)
-        msg.setText("Error")
+        msg.setText("❌ An Error Occurred")
         msg.setInformativeText(message)
-        msg.setWindowTitle("Error")
+        msg.setWindowTitle("Operation Failed")
+        msg.setStandardButtons(QMessageBox.StandardButton.Ok)
+        msg.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+        spacer = QSpacerItem(400, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        msg.layout().addItem(spacer, msg.layout().rowCount(), 0, 1, msg.layout().columnCount())
+
+        msg.setStyleSheet("""
+            QMessageBox {
+                background-color: #ffebee;
+                color: #b71c1c;
+                font-family: 'Segoe UI';
+                font-size: 13px;
+            }
+            QPushButton {
+                background-color: #ef9a9a;
+                color: #b71c1c;
+                border: none;
+                padding: 6px 12px;
+                min-width: 80px;
+            }
+            QPushButton:hover {
+                background-color: #e57373;
+            }
+        """)
+
         msg.exec()
+
     
     @staticmethod
     def alertSuccess(message):
         msg = QMessageBox()
-        msg.setIcon(QMessageBox.Icon.Information)
-        msg.setText("Success")
+        msg.setText("✅ Success")
         msg.setInformativeText(message)
-        msg.setWindowTitle("Success")
+        msg.setWindowTitle("Operation Successful")
+        msg.setStandardButtons(QMessageBox.StandardButton.Ok)
+        msg.setDefaultButton(QMessageBox.StandardButton.Ok)
+
+        spacer = QSpacerItem(400, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        msg.layout().addItem(spacer, msg.layout().rowCount(), 0, 1, msg.layout().columnCount())
+
+        msg.setStyleSheet("""
+            QMessageBox {
+                background-color: #e6ffed;
+                color: #2e7d32;
+                font-family: 'Segoe UI';
+                font-size: 13px;
+            }
+            QPushButton {
+                background-color: #a5d6a7;
+                color: #1b5e20;
+                border: none;
+                padding: 6px 12px;
+                min-width: 80px;
+            }
+            QPushButton:hover {
+                background-color: #81c784;
+            }
+        """)
+
         msg.exec()
+
     
     @staticmethod
     def delayCameraLoad(callback, timer, MainWindow):

@@ -8,6 +8,7 @@ from frontend.adminProducts  import Ui_MainWindow as adminProductsUi
 from frontend.cashierReciept  import Ui_MainWindow as cashierReciptUi
 from frontend.adminSalesTracker import Ui_MainWindow as adminSalesTrackerUi
 from frontend.recieptHistory import Ui_MainWindow as recieptHistoryUi
+from frontend.adminNotification import Ui_MainWindow as adminNotificationUi
 
 class MyMainWindow(QMainWindow):
     def __init__(self):
@@ -30,9 +31,14 @@ class MyMainWindow(QMainWindow):
         self.cashierHome.pushButton_4.clicked.connect(lambda: self.showCashierReciept(self.cashierHome.transaction_id) if self.cashierHome.recipt else print("kulang"))
 
     def showCashierReciept(self, transaction_id):
-        self.cashierHome = cashierReciptUi(transaction_id)
-        self.cashierHome.setupUi(self)
-        self.cashierHome.home.clicked.connect(self.showAdminDashboard)
+        self.cashierReceipt = cashierReciptUi(transaction_id)
+        self.cashierReceipt.setupUi(self)
+        self.cashierReceipt.home.clicked.connect(self.showAdminDashboard)
+
+    def showAdminNotification(self):
+        self.adminNotif = adminNotificationUi()
+        self.adminNotif.setupUi(self)
+        self.adminNotif.home_button.clicked.connect(self.showAdminDashboard)
     
     def showRecieptHistory(self):
         self.recieptHistory = recieptHistoryUi()
@@ -49,9 +55,13 @@ class MyMainWindow(QMainWindow):
         self.adminDashboard = adminDashboardUi()
         self.adminDashboard.setupUi(self)
 
-        self.adminDashboard.pushButton_1.clicked.connect(self.showAdminAddProduct)
-        self.adminDashboard.pushButton_2.clicked.connect(self.showAdminProducts)
-        self.adminDashboard.pushButton_3.clicked.connect(self.showCashierHome)
+        self.adminDashboard.nav_buttons[0].clicked.connect(self.showAdminAddProduct)
+        self.adminDashboard.nav_buttons[1].clicked.connect(self.showRecieptHistory)
+
+        self.adminDashboard.nav_buttons[3].clicked.connect(self.showAdminSalesTracker)
+        self.adminDashboard.nav_buttons[4].clicked.connect(self.showAdminNotification)
+
+     
 
     def showAdminProducts(self):
         self.adminProducts = adminProductsUi()
