@@ -1,4 +1,5 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
+from backend.transaction import Transaction
 
 class Ui_MainWindow(object):
     def setupUi(self, SalesReportPage):
@@ -21,10 +22,32 @@ class Ui_MainWindow(object):
         self.calendarLayout = QtWidgets.QVBoxLayout()
         self.calendar = QtWidgets.QCalendarWidget()
         self.trackButton = QtWidgets.QPushButton("Track")
+
+        # Make Track button bigger
+        font_btn = QtGui.QFont()
+        font_btn.setPointSize(14)
+        font_btn.setBold(True)
+        self.trackButton.setFont(font_btn)
+        self.trackButton.setFixedHeight(50)
+
         self.calendarLayout.addWidget(self.calendar)
         self.calendarLayout.addWidget(self.trackButton)
-        self.calendarLayout.addStretch()
 
+        # Sales and Date labels (moved under Track button)
+        font_label = QtGui.QFont()
+        font_label.setPointSize(12)
+        font_label.setBold(True)
+
+        self.salesLabelText = QtWidgets.QLabel("Sales:")
+        self.salesLabel = QtWidgets.QLabel("₱ 0")
+        self.dateLabelText = QtWidgets.QLabel("Date:")
+        self.dateLabel = QtWidgets.QLabel("00-00-00")
+
+        for label in [self.salesLabelText, self.salesLabel, self.dateLabelText, self.dateLabel]:
+            label.setFont(font_label)
+            self.calendarLayout.addWidget(label)
+
+        self.calendarLayout.addStretch()
         self.middleLayout.addLayout(self.calendarLayout)
 
         self.table = QtWidgets.QTableWidget()
@@ -36,23 +59,32 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addLayout(self.middleLayout)
 
-        # Bottom summary
-        self.summaryLayout = QtWidgets.QHBoxLayout()
-        self.salesLabelText = QtWidgets.QLabel("Sales:")
-        self.salesLabel = QtWidgets.QLabel("₱ 0")
-        self.dateLabelText = QtWidgets.QLabel("Date:")
-        self.dateLabel = QtWidgets.QLabel("00-00-00")
-
-        for w in [self.salesLabelText, self.salesLabel, self.dateLabelText, self.dateLabel]:
-            self.summaryLayout.addWidget(w)
-
-        self.summaryLayout.addStretch()
-        self.verticalLayout.addLayout(self.summaryLayout)
-
         SalesReportPage.setCentralWidget(self.centralwidget)
+
+        self.trackButton.clicked.connect(self.track)
 
         self.retranslateUi(SalesReportPage)
         QtCore.QMetaObject.connectSlotsByName(SalesReportPage)
+
+    
+    def track(self):
+        self.table.setRowCount(0)
+        selected_date = self.calendar.selectedDate().toString("yyyy-MM-dd")
+        myTransaction = Transaction()
+        data = myTransaction.getTransactions()
+        total_sales = 0
+
+        for entry in data:
+            if entry["date"] == selected_date:
+                row = self.table.rowCount()
+                self.table.insertRow(row)
+                self.table.setItem(row, 0, QtWidgets.QTableWidgetItem(entry["transaction_id"]))
+                self.table.setItem(row, 1, QtWidgets.QTableWidgetItem(entry["date"]))
+                self.table.setItem(row, 2, QtWidgets.QTableWidgetItem(f"₱ {entry['total']}"))
+                total_sales += entry["total"]
+
+        self.sales = total_sales
+        self.salesLabel.setText(f"₱ {self.sales}")
 
     def retranslateUi(self, SalesReportPage):
         SalesReportPage.setWindowTitle("Sales Report")
