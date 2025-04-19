@@ -169,6 +169,7 @@ class Ui_MainWindow(object):
         self.reset()
      
     def saveBarcode(self, barcode_data):
+        utils.alertSuccess("barcode detected")
         self.barcodeName.setText(barcode_data)
         self.barcodeName.setStyleSheet("color: green; font-weight: bold;")
 
@@ -196,10 +197,10 @@ class Ui_MainWindow(object):
         self.name.setText("")
         self.price.setText("")
         self.barcodeName.setText("NO SELECTED BARCODE")
-        self.barcodeName.setStyleSheet("color: black; font-weight: normal;")
+        self.barcodeName.setStyleSheet("color: red; font-weight: normal;")
         self.stocks.setText("")
         self.fileName.setText("NO SELECTED IMAGE")
-        self.fileName.setStyleSheet("color: black; font-weight: normal;")
+        self.fileName.setStyleSheet("color: red; font-weight: normal;")
 
 
     def closeEvent(self, event):

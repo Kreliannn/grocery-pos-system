@@ -5,12 +5,13 @@ from frontend.cashierHome import Ui_MainWindow as cashierHomeUi
 from frontend.adminAddProduct import Ui_MainWindow as adminAddProductUi
 from frontend.adminDashboard import Ui_MainWindow as adminDashboardUi
 from frontend.adminProducts  import Ui_MainWindow as adminProductsUi
+from frontend.cashierReciept  import Ui_MainWindow as cashierReciptUi
 
 class MyMainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.showAdminProducts()
-        #self.showAdminAddProduct()
+        #self.showAdminDashboard()
+        self.showCashierReciept()
 
     def showLoginPage(self):
         self.login = loginPageUi()
@@ -26,6 +27,11 @@ class MyMainWindow(QMainWindow):
         self.cashierHome.pushButton_4.clicked.connect(lambda: self.cashierHome.stopCamera() if self.cashierHome.recipt else print("kulang"))
         self.cashierHome.pushButton_4.clicked.connect(lambda: self.showLoginPage() if self.cashierHome.recipt else print("kulang"))
 
+    def showCashierReciept(self, transaction_id = "123454"):
+        self.cashierHome = cashierReciptUi(transaction_id)
+        self.cashierHome.setupUi(self)
+        self.cashierHome.home.clicked.connect(self.showAdminDashboard)
+      
 
     def showAdminAddProduct(self):
         self.adminAddProduct = adminAddProductUi()

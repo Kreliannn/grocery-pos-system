@@ -1,5 +1,5 @@
 
  "C:\Users\U\AppData\Roaming\Python\Python310\Scripts\pyqt6-tools.exe" designer
 
-  & "$env:USERPROFILE\AppData\Roaming\Python\Python310\Scripts\pyuic6.exe" -o card.py card.ui
+  & "$env:USERPROFILE\AppData\Roaming\Python\Python310\Scripts\pyuic6.exe" -o cashierReciept.py untitled.ui
 

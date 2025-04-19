@@ -40,8 +40,6 @@ class Database:
             print(f"Error: {err}")   
         finally:
             cursor.close()
- 
-
 
     
     def getOne(self, sql, id):
