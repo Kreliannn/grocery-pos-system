@@ -9,31 +9,41 @@ from frontend.cashierReciept  import Ui_MainWindow as cashierReciptUi
 from frontend.adminSalesTracker import Ui_MainWindow as adminSalesTrackerUi
 from frontend.recieptHistory import Ui_MainWindow as recieptHistoryUi
 from frontend.adminNotification import Ui_MainWindow as adminNotificationUi
+from frontend.cashier import Ui_MainWindow as cashierUi
+from frontend.cashierReceiptHistory import Ui_MainWindow as cashierHistoryUi
 
 class MyMainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.showRecieptHistory()
+        self.showLoginPage()
         #self.showCashierReciept()
 
     def showLoginPage(self):
         self.login = loginPageUi()
         self.login.setupUi(self)
-        self.login.loginButton.clicked.connect(lambda: self.showCashierHome() if self.login.loginCashier else print("wrong"))
+        self.login.loginButton.clicked.connect(lambda: self.showCashier() if self.login.loginCashier else print("wrong"))
         self.login.loginButton.clicked.connect(lambda: self.showAdminDashboard() if self.login.loginAdmin else print("wrong"))
     
     def showCashierHome(self):
         self.cashierHome = cashierHomeUi()
         self.cashierHome.setupUi(self)
-        self.cashierHome.pushButton_3.clicked.connect(lambda: self.cashierHome.stopCamera())
-        self.cashierHome.pushButton_3.clicked.connect(self.showAdminDashboard)
-        self.cashierHome.pushButton_4.clicked.connect(lambda: self.cashierHome.stopCamera() if self.cashierHome.recipt else print("kulang"))
-        self.cashierHome.pushButton_4.clicked.connect(lambda: self.showCashierReciept(self.cashierHome.transaction_id) if self.cashierHome.recipt else print("kulang"))
+        self.cashierHome.homeButton.clicked.connect(self.cashierHome.stopCamera)
+        self.cashierHome.homeButton.clicked.connect(self.showCashier)
+        self.cashierHome.payButton.clicked.connect(lambda: self.cashierHome.stopCamera() if self.cashierHome.recipt else print("kulang"))
+        self.cashierHome.payButton.clicked.connect(lambda: self.showCashierReciept(self.cashierHome.transaction_id) if self.cashierHome.recipt else print("kulang"))
+
+    def showCashier(self ):
+        self.cashier = cashierUi()
+        self.cashier.setupUi(self)
+        self.cashier.btn_scan.clicked.connect(self.showCashierHome)
+        self.cashier.btn_history.clicked.connect(self.showCashierRecieptHistory)
+        self.cashier.btn_logout.clicked.connect(self.showLoginPage)
+       
 
     def showCashierReciept(self, transaction_id):
         self.cashierReceipt = cashierReciptUi(transaction_id)
         self.cashierReceipt.setupUi(self)
-        self.cashierReceipt.home.clicked.connect(self.showAdminDashboard)
+        self.cashierReceipt.home.clicked.connect(self.showCashier)
 
     def showAdminNotification(self):
         self.adminNotif = adminNotificationUi()
@@ -44,6 +54,11 @@ class MyMainWindow(QMainWindow):
         self.recieptHistory = recieptHistoryUi()
         self.recieptHistory.setupUi(self)
         self.recieptHistory.homeButton.clicked.connect(self.showAdminDashboard)
+
+    def showCashierRecieptHistory(self):
+        self.recieptHistory = cashierHistoryUi()
+        self.recieptHistory.setupUi(self)
+        self.recieptHistory.homeButton.clicked.connect(self.showCashier)
 
     def showAdminAddProduct(self):
         self.adminAddProduct = adminAddProductUi()
