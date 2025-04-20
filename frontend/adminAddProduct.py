@@ -9,6 +9,8 @@ import shutil
 import os
 from backend.utils.util import utils
 from backend.product import Product
+from backend.notification  import Notification
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -163,6 +165,13 @@ class Ui_MainWindow(object):
             "price": price,
             "image": image,
             "stocks": stocks
+        })
+
+        myNotification = Notification()
+        myNotification.addNotifications({
+            "header" : "Add Product" ,
+            "message" : "Product: " + name,
+            "icon" : "success"
         })
         
         utils.alertSuccess("Product added successfully.")

@@ -1,4 +1,5 @@
 from backend.db.database import Database
+from datetime import date
 
 class Transaction(Database):
 
@@ -14,3 +15,13 @@ class Transaction(Database):
     def getTransactions(self):
         sql = "select * from transactions"
         return self.getAll(sql)
+    
+    def getTotalSales(self):
+        sql = "select sum(total) from transactions"
+        values = []
+        return self.getAll(sql, values)[0]
+    
+    def getTodaySales(self):
+        sql = "select sum(total) from transactions where date = %s"
+        values = [date.today()]
+        return self.getAll(sql, values)[0]

@@ -1,5 +1,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from backend.transaction import Transaction
+from backend.notification  import Notification
+from backend.utils.util import utils
 
 class Ui_MainWindow(object):
     def setupUi(self, SalesReportPage):
@@ -85,6 +87,15 @@ class Ui_MainWindow(object):
 
         self.sales = total_sales
         self.salesLabel.setText(f"₱ {self.sales}")
+        self.dateLabel.setText(str(selected_date))
+        
+        myNotification = Notification()
+        myNotification.addNotifications({
+            "header" : "Track Sales" ,
+            "message" : str(selected_date) + " sales is " + str(total_sales),
+            "icon" : "success"
+        })
+        utils.alertSuccess("Product added successfully.")
 
     def retranslateUi(self, SalesReportPage):
         SalesReportPage.setWindowTitle("Sales Report")

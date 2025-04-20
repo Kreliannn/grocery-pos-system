@@ -1,4 +1,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
+from backend.product import Product
+from backend.soldProduct import SoldProduct
+from backend.transaction import  Transaction
 
 class Ui_MainWindow(object):
         def setupUi(self, Dashboard):
@@ -17,7 +20,7 @@ class Ui_MainWindow(object):
             self.navbar.setObjectName("navbar")
 
             # Navbar buttons
-            button_names = ["Add Product", "Receipt History", "AI Assistant", "Sales Tracker", "Notification"]
+            button_names = ["Add Product","Receipt History", "AI Assistant", "Sales Tracker", "Notification", "Products"]
             self.nav_buttons = []
             for i, name in enumerate(button_names):
                 btn = QtWidgets.QPushButton(parent=self.navbar)
@@ -36,11 +39,23 @@ class Ui_MainWindow(object):
             self.box_today_sales.setGeometry(QtCore.QRect(20, 10, 400, 130))
             self.box_today_sales.setStyleSheet("QGroupBox { background-color: #ecf0f1; border: 1px solid #bdc3c7; border-radius: 10px; font-weight: bold; }")
 
+
+
+            myProduct = Product()
+            mySoldProduct = SoldProduct()
+            myTransaction = Transaction()
+
+            soldProductCount = mySoldProduct.getSoldProductCount()["sum(qty)"]
+            totalSales = myTransaction.getTotalSales()["sum(total)"]
+            todaySales = myTransaction.getTodaySales()["sum(total)"]
+            productCount = len(myProduct.getProducts())
+
+
             self.label_today_sales = QtWidgets.QLabel(parent=self.box_today_sales)
             self.label_today_sales.setGeometry(QtCore.QRect(0, 40, 400, 50))
             self.label_today_sales.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
             self.label_today_sales.setStyleSheet("font-size: 24px; color: #2c3e50;")
-            self.label_today_sales.setText("0")
+            self.label_today_sales.setText(str(todaySales))
 
             self.box_overall_sales = QtWidgets.QGroupBox(parent=self.info_frame)
             self.box_overall_sales.setTitle("Overall Sales")
@@ -51,7 +66,7 @@ class Ui_MainWindow(object):
             self.label_overall_sales.setGeometry(QtCore.QRect(0, 40, 400, 50))
             self.label_overall_sales.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
             self.label_overall_sales.setStyleSheet("font-size: 24px; color: #2c3e50;")
-            self.label_overall_sales.setText("0")
+            self.label_overall_sales.setText(str(totalSales))
 
             self.box_product_count = QtWidgets.QGroupBox(parent=self.info_frame)
             self.box_product_count.setTitle("Product Count")
@@ -62,7 +77,7 @@ class Ui_MainWindow(object):
             self.label_product_count.setGeometry(QtCore.QRect(0, 40, 400, 50))
             self.label_product_count.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
             self.label_product_count.setStyleSheet("font-size: 24px; color: #2c3e50;")
-            self.label_product_count.setText("0")
+            self.label_product_count.setText(str(productCount))
 
             self.box_item_sold = QtWidgets.QGroupBox(parent=self.info_frame)
             self.box_item_sold.setTitle("Item Sold")
@@ -73,7 +88,7 @@ class Ui_MainWindow(object):
             self.label_item_sold.setGeometry(QtCore.QRect(0, 40, 400, 50))
             self.label_item_sold.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
             self.label_item_sold.setStyleSheet("font-size: 24px; color: #2c3e50;")
-            self.label_item_sold.setText("0")
+            self.label_item_sold.setText(str(soldProductCount))
 
             Dashboard.setCentralWidget(self.centralwidget)
             self.retranslateUi(Dashboard)

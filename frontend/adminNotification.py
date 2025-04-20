@@ -1,5 +1,6 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from datetime import datetime
+from backend.notification import Notification
 
 class Ui_MainWindow(object):
     def setupUi(self, NotificationPage):
@@ -34,7 +35,11 @@ class Ui_MainWindow(object):
             {"header": "Sales Update", "message": "You've made 10 sales today!", "icon": "success", "datetime": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
         ]
 
-        for data in mock_data:
+        myNotification = Notification()
+
+        notifications = myNotification.getNotifications()
+
+        for notif in notifications:
             frame = QtWidgets.QFrame()
             frame.setStyleSheet("background-color: #f5f5f5; border-radius: 10px; padding: 10px;")
             frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
@@ -45,7 +50,7 @@ class Ui_MainWindow(object):
             # Icon on the left
             icon_label = QtWidgets.QLabel()
             icon_label.setFixedSize(55, 55)
-            if data["icon"] == "warning":
+            if notif["icon"] == "warning":
                 icon = NotificationPage.style().standardIcon(QtWidgets.QStyle.StandardPixmap.SP_MessageBoxWarning)
             else:
                 icon = NotificationPage.style().standardIcon(QtWidgets.QStyle.StandardPixmap.SP_MessageBoxInformation)
@@ -53,14 +58,14 @@ class Ui_MainWindow(object):
 
             # Texts on the right
             text_layout = QtWidgets.QVBoxLayout()
-            header = QtWidgets.QLabel(f"<b>{data['header']}</b>")
+            header = QtWidgets.QLabel(f"<b>{notif['header']}</b>")
             header.setStyleSheet("font-size: 13px;")
 
-            message = QtWidgets.QLabel(data['message'])
+            message = QtWidgets.QLabel(notif['message'])
             message.setStyleSheet("font-size: 14px;")
             message.setWordWrap(True)
 
-            timestamp_label = QtWidgets.QLabel(data['datetime'])
+            timestamp_label = QtWidgets.QLabel(notif['datetime'])
             timestamp_label.setStyleSheet("font-size: 11px; color: gray;")
 
             text_layout.addWidget(header)

@@ -3,6 +3,7 @@ from backend.product import Product
 from PyQt6.QtGui import QPixmap
 from backend.utils.util import utils
 from backend.product import Product
+from backend.notification  import Notification
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -100,12 +101,35 @@ class Ui_MainWindow(object):
         return card
     
     def updateProduct(self, id, name, price, stocks):
+        myNotification = Notification()
+        currentProduct = self.myProduct.getProduct(id)
         updatedProduct = {
             "product_id" : id ,
             "name" : name.text() ,
             "price" : price.text() ,
             "stocks" : stocks.text() 
         }
+
+        header = ""
+        message = "product: " + name.text()
+        icon = "success"
+
+
+        if currentProduct["stocks"] != int(updatedProduct["stocks"]):
+            header = "Restock Product"
+        elif currentProduct["name"] != updatedProduct["name"]:
+            header = "Product Change Name"
+        elif currentProduct["price"] != int(updatedProduct["price"]):
+            header = "Product Change Price"
+        else:
+            header = "Saved Product"
+
+        myNotification.addNotifications({
+            "header" : header,
+            "message" : message,
+            "icon" : icon
+        })
+
         self.myProduct.updateProduct(updatedProduct)
         utils.alertSuccess("Product updated")
     

@@ -60,6 +60,7 @@ class MyMainWindow(QMainWindow):
         self.adminDashboard.nav_buttons[2].clicked.connect(self.showCashierHome)
         self.adminDashboard.nav_buttons[3].clicked.connect(self.showAdminSalesTracker)
         self.adminDashboard.nav_buttons[4].clicked.connect(self.showAdminNotification)
+        self.adminDashboard.nav_buttons[5].clicked.connect(self.showAdminProducts)
 
      
 
