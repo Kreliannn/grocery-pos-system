@@ -1,9 +1,10 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
+from datetime import datetime
 
 class Ui_MainWindow(object):
     def setupUi(self, NotificationPage):
         NotificationPage.setObjectName("NotificationPage")
-        NotificationPage.resize(420, 600)  # Adjusted window width to 500px
+        NotificationPage.resize(450, 600)
         NotificationPage.setStyleSheet("font-family: 'Segoe UI'; font-size: 14px;")
 
         self.centralwidget = QtWidgets.QWidget(parent=NotificationPage)
@@ -17,7 +18,7 @@ class Ui_MainWindow(object):
 
         # Scrollable notification container
         self.scroll_area = QtWidgets.QScrollArea(parent=self.centralwidget)
-        self.scroll_area.setGeometry(QtCore.QRect(20, 70, 380, 500))  # Adjusted width for scroll area
+        self.scroll_area.setGeometry(QtCore.QRect(20, 70, 410, 500))
         self.scroll_area.setWidgetResizable(True)
 
         self.scroll_content = QtWidgets.QWidget()
@@ -25,39 +26,51 @@ class Ui_MainWindow(object):
 
         self.notification_layout = QtWidgets.QVBoxLayout(self.scroll_content)
 
-        # Mockup notifications
+        # Mockup notifications with datetime
         mock_data = [
-            {"header": "System Error", "message": "An error occurred during processing.", "icon": "error"},
-            {"header": "Upload Complete", "message": "Your product list has been updated.", "icon": "success"},
-            {"header": "Low Inventory", "message": "Stock for item #234 is running low.", "icon": "error"},
-            {"header": "Sales Update", "message": "You've made 10 sales today!", "icon": "success"}
+            {"header": "System Error", "message": "An error occurred during processing.", "icon": "warning", "datetime": datetime.now().strftime("%Y-%m-%d %H:%M:%S")},
+            {"header": "Upload Complete", "message": "Your product list has been updated.", "icon": "success", "datetime": datetime.now().strftime("%Y-%m-%d %H:%M:%S")},
+            {"header": "Low Inventory", "message": "Stock for item #234 is running low.", "icon": "warning", "datetime": datetime.now().strftime("%Y-%m-%d %H:%M:%S")},
+            {"header": "Sales Update", "message": "You've made 10 sales today!", "icon": "success", "datetime": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
         ]
 
         for data in mock_data:
             frame = QtWidgets.QFrame()
-            frame.setStyleSheet("background-color: #f5f5f5; border-radius: 10px; padding: 10px;")  # White smoke background
+            frame.setStyleSheet("background-color: #f5f5f5; border-radius: 10px; padding: 10px;")
             frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
             frame.setMinimumHeight(100)
 
-            layout = QtWidgets.QHBoxLayout(frame)
+            main_layout = QtWidgets.QHBoxLayout(frame)
+
+            # Icon on the left
             icon_label = QtWidgets.QLabel()
-            if data["icon"] == "error":
-                icon = NotificationPage.style().standardIcon(QtWidgets.QStyle.StandardPixmap.SP_MessageBoxCritical)
+            icon_label.setFixedSize(55, 55)
+            if data["icon"] == "warning":
+                icon = NotificationPage.style().standardIcon(QtWidgets.QStyle.StandardPixmap.SP_MessageBoxWarning)
             else:
                 icon = NotificationPage.style().standardIcon(QtWidgets.QStyle.StandardPixmap.SP_MessageBoxInformation)
-            icon_label.setPixmap(icon.pixmap(32, 32))
+            icon_label.setPixmap(icon.pixmap(55, 55))
 
+            # Texts on the right
             text_layout = QtWidgets.QVBoxLayout()
-            header = QtWidgets.QLabel(f"<b style='font-size: 12px;'>{data['header']}</b>")  # Increased font size
+            header = QtWidgets.QLabel(f"<b>{data['header']}</b>")
+            header.setStyleSheet("font-size: 13px;")
+
             message = QtWidgets.QLabel(data['message'])
-            message.setStyleSheet("font-size: 14px;")  # Increased font size for message
+            message.setStyleSheet("font-size: 14px;")
+            message.setWordWrap(True)
+
+            timestamp_label = QtWidgets.QLabel(data['datetime'])
+            timestamp_label.setStyleSheet("font-size: 11px; color: gray;")
 
             text_layout.addWidget(header)
             text_layout.addWidget(message)
+            text_layout.addWidget(timestamp_label)
 
-            layout.addWidget(icon_label)
-            layout.addLayout(text_layout)
+            main_layout.addWidget(icon_label)
+            main_layout.addLayout(text_layout)
             self.notification_layout.addWidget(frame)
+
 
         NotificationPage.setCentralWidget(self.centralwidget)
         self.retranslateUi(NotificationPage)

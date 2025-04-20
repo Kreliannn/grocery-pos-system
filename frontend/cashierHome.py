@@ -126,7 +126,14 @@ class Ui_MainWindow(object):
 
     def addToTable(self, barcode):
         product = self.myProduct.getProductByBarCode(barcode)
+
+     
         if product:
+
+            if product['stocks'] <= 0:
+                utils.alertError("Product Out Of Stock")
+                return
+        
             dialog = utils.askPopUp(self.mainWindow, "product quantity:", 1)
             ok = dialog.exec()
             qty = dialog.intValue() 
