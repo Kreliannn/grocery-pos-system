@@ -56,12 +56,12 @@ class MyMainWindow(QMainWindow):
         self.adminDashboard.setupUi(self)
 
         self.adminDashboard.nav_buttons[0].clicked.connect(self.showAdminAddProduct)
-        self.adminDashboard.nav_buttons[1].clicked.connect(self.showRecieptHistory)
+        self.adminDashboard.nav_buttons[1].clicked.connect(self.showAdminProducts)
         self.adminDashboard.nav_buttons[2].clicked.connect(self.showCashierHome)
         self.adminDashboard.nav_buttons[3].clicked.connect(self.showAdminSalesTracker)
         self.adminDashboard.nav_buttons[4].clicked.connect(self.showAdminNotification)
-        self.adminDashboard.nav_buttons[5].clicked.connect(self.showAdminProducts)
-
+        self.adminDashboard.nav_buttons[5].clicked.connect(self.showRecieptHistory)
+        self.adminDashboard.nav_buttons[6].clicked.connect(self.showLoginPage)
      
 
     def showAdminProducts(self):
