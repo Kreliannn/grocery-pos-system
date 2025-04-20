@@ -11,12 +11,13 @@ from frontend.recieptHistory import Ui_MainWindow as recieptHistoryUi
 from frontend.adminNotification import Ui_MainWindow as adminNotificationUi
 from frontend.cashier import Ui_MainWindow as cashierUi
 from frontend.cashierReceiptHistory import Ui_MainWindow as cashierHistoryUi
+from frontend.adminAiAssistant import Ui_MainWindow as adminAssistant
 
 class MyMainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.showLoginPage()
-        #self.showCashierReciept()
+
 
     def showLoginPage(self):
         self.login = loginPageUi()
@@ -38,6 +39,13 @@ class MyMainWindow(QMainWindow):
         self.cashier.btn_scan.clicked.connect(self.showCashierHome)
         self.cashier.btn_history.clicked.connect(self.showCashierRecieptHistory)
         self.cashier.btn_logout.clicked.connect(self.showLoginPage)
+
+    
+    def showAdminAssistant(self ):
+        self.adminAI = adminAssistant()
+        self.adminAI.setupUi(self)
+        self.adminAI.homeButton.clicked.connect(self.showAdminDashboard)
+    
        
 
     def showCashierReciept(self, transaction_id):
@@ -72,7 +80,7 @@ class MyMainWindow(QMainWindow):
 
         self.adminDashboard.nav_buttons[0].clicked.connect(self.showAdminAddProduct)
         self.adminDashboard.nav_buttons[1].clicked.connect(self.showAdminProducts)
-        self.adminDashboard.nav_buttons[2].clicked.connect(self.showCashierHome)
+        self.adminDashboard.nav_buttons[2].clicked.connect(self.showAdminAssistant)
         self.adminDashboard.nav_buttons[3].clicked.connect(self.showAdminSalesTracker)
         self.adminDashboard.nav_buttons[4].clicked.connect(self.showAdminNotification)
         self.adminDashboard.nav_buttons[5].clicked.connect(self.showRecieptHistory)

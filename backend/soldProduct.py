@@ -12,6 +12,11 @@ class SoldProduct(Database):
         values = [transaction_id]
         return self.getAll(sql, values)
     
+    def getSoldProducts(self):
+        sql = "select * from soldproduct join products on soldProduct.product_id = products.product_id"
+        values = []
+        return self.getAll(sql, values)
+    
     def getSoldProductCount(self):
         sql = "select sum(qty) from soldproduct"
         values = []

@@ -31,16 +31,14 @@ class Database:
             cursor.close()
    
     def getAll(self, sql, values = ()):
-        try:       
-            cursor = self.conn.cursor(prepared=True, dictionary=True)  
+        try:   
+            cursor = self.conn.cursor(prepared=True, dictionary=True)      
             cursor.execute(sql, values)
             result = cursor.fetchall()
             return result
         except mysql.connector.Error as err:
             print(f"Error: {err}")   
-        finally:
-            cursor.close()
-
+   
     
     def getOne(self, sql, id):
         try:       
