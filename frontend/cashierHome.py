@@ -9,7 +9,7 @@ from backend.product import Product
 from backend.transaction import Transaction
 from backend.soldProduct import SoldProduct
 from datetime import date
-
+from backend.notification import Notification
 
 
 
@@ -138,6 +138,10 @@ class Ui_MainWindow(object):
             ok = dialog.exec()
             qty = dialog.intValue() 
 
+            if qty > product['stocks']:
+                utils.alertError("invalid quantity. the current stocks of product is " + str(product['stocks']))
+                return
+            
             if ok:
                 total = qty * product['price']; 
                 row_position = self.tableWidget.rowCount() 
@@ -190,7 +194,17 @@ class Ui_MainWindow(object):
                     "transaction_id" :  transactionId
                 }
                 self.mySoldProduct.addSoldProduct(item)
+                if(self.myProduct.deductStocks(cartItem['product_id'], cartItem['qty'])):
+                        product = self.myProduct.getProduct(cartItem['product_id'])
+                        myNotification = Notification()
+                        myNotification.addNotifications({
+                            "header" : "Out Of Stock" ,
+                            "message" : "Product: " + product['name'],
+                            "icon" : "warning"
+                        })
 
+
+            
             self.myTransaction.addTransaction(self.recipt)
 
             self.transaction_id = transactionId

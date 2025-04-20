@@ -24,6 +24,16 @@ class Product(Database):
         sql = "SELECT name, price, stocks, product_id FROM products where barcode = %s"
         return self.getOne(sql, barcode)
     
+    def deductStocks(self, id, qty):
+        product = self.getProduct(id)
+        newQty = product['stocks'] - qty
+        sql = "update products set  stocks = %s where product_id = %s"
+        values = (newQty, id)
+        self.update(sql, values)
+        return newQty == 0
+
+
+    
     
 
 
