@@ -17,6 +17,7 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(parent=MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         
+        self.mainWindow = MainWindow
      
         
         # Login container with shadow effect
@@ -156,12 +157,10 @@ class Ui_MainWindow(object):
         passwordVal = self.password.text()
 
         if usernameVal == "admin" and passwordVal == "123":
-            self.loginAdmin = True
-            print("Login successful welcome admin")
+            self.mainWindow.showAdminDashboard()
   
         elif usernameVal == "cashier" and passwordVal == "123":
-            self.loginCashier = True
-            print("Login successful welcome cashier")
+            self.mainWindow.showCashier()
         else:
             print("Invalid credentials")
             utils.alertError("Invalid credentials")

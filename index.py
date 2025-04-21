@@ -22,8 +22,7 @@ class MyMainWindow(QMainWindow):
     def showLoginPage(self):
         self.login = loginPageUi()
         self.login.setupUi(self)
-        self.login.loginButton.clicked.connect(lambda: self.showCashier() if self.login.loginCashier else print("wrong"))
-        self.login.loginButton.clicked.connect(lambda: self.showAdminDashboard() if self.login.loginAdmin else print("wrong"))
+       
     
     def showCashierHome(self):
         self.cashierHome = cashierHomeUi()
