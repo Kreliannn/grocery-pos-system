@@ -95,6 +95,15 @@ class Ui_MainWindow(object):
         self.label_product_count.setText(str(productCount))
         self.label_item_sold.setText(str(soldProductCount))
 
+        
+        self.nav_buttons[0].clicked.connect(Dashboard.showAdminAddProduct)
+        self.nav_buttons[1].clicked.connect(Dashboard.showAdminProducts)
+        self.nav_buttons[2].clicked.connect(Dashboard.showAdminAssistant)
+        self.nav_buttons[3].clicked.connect(Dashboard.showAdminSalesTracker)
+        self.nav_buttons[4].clicked.connect(Dashboard.showAdminNotification)
+        self.nav_buttons[5].clicked.connect(Dashboard.showRecieptHistory)
+        self.nav_buttons[6].clicked.connect(Dashboard.showLoginPage)
+
         Dashboard.setCentralWidget(self.centralwidget)
         self.retranslateUi(Dashboard)
         QtCore.QMetaObject.connectSlotsByName(Dashboard)

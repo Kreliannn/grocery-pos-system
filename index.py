@@ -26,11 +26,8 @@ class MyMainWindow(QMainWindow):
     
     def showCashierHome(self):
         self.cashierHome = cashierHomeUi()
-        self.cashierHome.setupUi(self)
-        self.cashierHome.homeButton.clicked.connect(self.cashierHome.stopCamera)
-        self.cashierHome.homeButton.clicked.connect(self.showCashier)
-        self.cashierHome.payButton.clicked.connect(lambda: self.cashierHome.stopCamera() if self.cashierHome.recipt else print("kulang"))
-        self.cashierHome.payButton.clicked.connect(lambda: self.showCashierReciept(self.cashierHome.transaction_id) if self.cashierHome.recipt else print("kulang"))
+        self.cashierHome.setupUi(self)          
+    
 
     def showCashier(self ):
         self.cashier = cashierUi()
@@ -77,13 +74,6 @@ class MyMainWindow(QMainWindow):
         self.adminDashboard = adminDashboardUi()
         self.adminDashboard.setupUi(self)
 
-        self.adminDashboard.nav_buttons[0].clicked.connect(self.showAdminAddProduct)
-        self.adminDashboard.nav_buttons[1].clicked.connect(self.showAdminProducts)
-        self.adminDashboard.nav_buttons[2].clicked.connect(self.showAdminAssistant)
-        self.adminDashboard.nav_buttons[3].clicked.connect(self.showAdminSalesTracker)
-        self.adminDashboard.nav_buttons[4].clicked.connect(self.showAdminNotification)
-        self.adminDashboard.nav_buttons[5].clicked.connect(self.showRecieptHistory)
-        self.adminDashboard.nav_buttons[6].clicked.connect(self.showLoginPage)
      
 
     def showAdminProducts(self):

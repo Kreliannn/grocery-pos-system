@@ -7,6 +7,7 @@ from backend.soldProduct import SoldProduct
 
 genai.configure(api_key="AIzaSyBdrJMVA-cG86Dj3dJIskhB0DsCbo7CwFk")
 model = genai.GenerativeModel("gemini-1.5-flash")
+
 myTransaction = Transaction()
 myProduct = Product()
 mySoldProduct = SoldProduct()
@@ -22,8 +23,7 @@ class Ai(Database):
     
     def getConvoMessages(self):
         sql = "select * from messages"
-        val = ()
-        return self.getAll(sql, val)
+        return self.getAll(sql)
     
     def addMessage(self, message):
         sql = "INSERT INTO messages (sender, message, datetime) VALUES (%s, %s, %s)"

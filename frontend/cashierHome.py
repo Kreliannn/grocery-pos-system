@@ -238,6 +238,12 @@ class Ui_MainWindow(object):
         self.mySoldProduct = SoldProduct()
         self.myTransaction = Transaction()
         self.cart = []
+
+
+        self.homeButton.clicked.connect(self.stopCamera)
+        self.homeButton.clicked.connect(MainWindow.showCashier)
+        self.payButton.clicked.connect(self.stopCamera)
+        self.payButton.clicked.connect(lambda: MainWindow.showCashierReciept(self.transaction_id))
         
         # Start camera with delay
         utils.delayCameraLoad(self.startCamera, 100, MainWindow)
