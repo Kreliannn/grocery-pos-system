@@ -49,6 +49,9 @@ class Ui_MainWindow(object):
         self.scrollArea.setWidget(self.scrollContent)
         self.verticalLayout.addWidget(self.scrollArea)
 
+
+        
+
         ReceiptPage.setCentralWidget(self.centralwidget)
         self.retranslateUi(ReceiptPage)
         QtCore.QMetaObject.connectSlotsByName(ReceiptPage)

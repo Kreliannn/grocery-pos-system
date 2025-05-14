@@ -170,7 +170,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.home.clicked.connect(self.save)
-
+        self.home.clicked.connect(MainWindow.showCashier)
         self.retranslateUi(MainWindow)
 
         self.total.setText(str(self.transaction["total"]))

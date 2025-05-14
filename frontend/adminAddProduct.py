@@ -270,6 +270,9 @@ class Ui_MainWindow(object):
         self.statusbar.setStyleSheet("background-color: #ecf0f1;")
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
+
+        self.pushButton.clicked.connect(self.stopCamera)
+        self.pushButton.clicked.connect(MainWindow.showAdminDashboard)
         
         self.newFileName = ""
         utils.delayCameraLoad(self.startCamera, 100, MainWindow)
