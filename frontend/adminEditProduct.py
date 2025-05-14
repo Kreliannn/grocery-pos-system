@@ -74,12 +74,12 @@ class Ui_MainWindow(object):
 
     def updateProduct(self):
         myNotification = Notification()
-        currentProduct = self.myProduct.getProduct(id)
+        currentProduct = self.myProduct.getProduct(self.product['id'])
         updatedProduct = {
-            "product_id" : self.product['product_id'] ,
+            "product_id" : self.product['id'] ,
             "name" : self.Name.text() ,
-            "price" : self.Price.text() ,
-            "stocks" : self.Stocks.text() 
+            "price" : int(self.Price.text()) ,
+            "stocks" : int(self.Stocks.text()) 
         }
 
         header = ""

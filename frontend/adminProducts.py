@@ -150,8 +150,10 @@ class Ui_MainWindow(object):
             'id': id,
             'name': name,
             'price': price,
-            'stocks': stocks
+            'stocks': stocks,
+            'image' : image
         }
+        
         
         card = QtWidgets.QWidget()
         card.setFixedSize(230, 280)
@@ -241,7 +243,8 @@ class Ui_MainWindow(object):
         self.mainWindow.showAdminEditProducts(product)
         
     def deleteProduct(self, product):
-        print(f"Delete product: {product}")
+        self.myProduct.deleteProduct(product['id'])
+        self.mainWindow.showAdminProducts()
     
    
 

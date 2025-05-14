@@ -48,6 +48,7 @@ class MyMainWindow(QMainWindow):
     def showRecieptHistory(self):
         self.recieptHistory = recieptHistoryUi()
         self.recieptHistory.setupUi(self)
+        self.recieptHistory.homeButton.clicked.connect(self.showAdminDashboard)
        
 
     def showCashierRecieptHistory(self):

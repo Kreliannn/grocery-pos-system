@@ -29,7 +29,21 @@ class Ui_MainWindow(object):
         self.nav_buttons = []
         for name in button_names:
             btn = QtWidgets.QPushButton(name)
-            btn.setStyleSheet("background-color: #34495e; color: white; border-radius: 5px; padding: 10px;")
+            btn.setStyleSheet("""
+                QPushButton {
+                    background-color: whitesmoke;       /* Default background */
+                    color: gray;                        /* Default text */
+                    border: 1px solid #38BDF8;          /* Border */
+                    border-radius: 6px;
+                    padding: 10px;
+                    font-weight: bold;
+                }
+                QPushButton:hover {
+                    background-color: #1D4ED8;          /* Hover background */
+                    color: white;                       /* Hover text */
+                }
+            """)
+
             self.sidebar_layout.addWidget(btn)
             self.nav_buttons.append(btn)
 
@@ -103,6 +117,23 @@ class Ui_MainWindow(object):
         self.nav_buttons[4].clicked.connect(Dashboard.showAdminNotification)
         self.nav_buttons[5].clicked.connect(Dashboard.showRecieptHistory)
         self.nav_buttons[6].clicked.connect(Dashboard.showLoginPage)
+
+        self.sidebar.setStyleSheet("background-color: #38BDF8; color: white;")  # Primary Blue
+        btn.setStyleSheet("""
+            QPushButton {
+                background-color: whitesmoke;        /* Sky Blue */
+                color: #64748B;                   /* Navy Blue text */
+                border: 1px solid #38BDF8;        /* Slate Blue border */
+                border-radius: 6px;
+                padding: 10px;
+                font-weight: bold;
+            }
+            QPushButton:hover {
+                background-color: #1D4ED8;        /* Hover State: Darker Blue */
+                color: white;
+            }
+        """)
+
 
         Dashboard.setCentralWidget(self.centralwidget)
         self.retranslateUi(Dashboard)

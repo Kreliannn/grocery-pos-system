@@ -12,7 +12,11 @@ class Product(Database):
         sql = "update products set name = %s, price = %s, stocks = %s where product_id = %s"
         values = (product['name'], product['price'], product['stocks'], product['product_id'])
         self.update(sql, values)
-
+    
+    def deleteProduct(self, id):
+        sql = "delete from products where product_id = %s"
+        return self.update(sql, [id])
+    
     def getProducts(self):
         sql = "SELECT * FROM products"
         return self.getAll(sql)
