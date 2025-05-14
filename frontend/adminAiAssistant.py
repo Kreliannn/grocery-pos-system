@@ -62,6 +62,9 @@ class Ui_MainWindow(object):
 
         self.sendButton.clicked.connect(self.sendPrompt)
 
+
+        self.homeButton.clicked.connect(ChatWindow.showAdminDashboard)
+
         ChatWindow.setCentralWidget(self.centralwidget)
         self.retranslateUi(ChatWindow)
         QtCore.QMetaObject.connectSlotsByName(ChatWindow)

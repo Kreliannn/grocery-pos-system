@@ -11,7 +11,7 @@ class Ui_MainWindow(object):
         self.myTransacton = Transaction()
         self.mySoldProduct = SoldProduct()
         self.transaction = self.myTransacton.getTransaction(id)
-        self.soldProducts = self.mySoldProduct.getSoldProducts(id)
+        self.soldProducts = self.mySoldProduct.getSoldProduct(id)
         print(self.soldProducts)
 
     def setupUi(self, MainWindow):

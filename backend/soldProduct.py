@@ -7,7 +7,7 @@ class SoldProduct(Database):
         values = (item['qty'], item['product_id'], item['transaction_id'])
         self.insert(sql, values)
 
-    def getSoldProducts(self, transaction_id):
+    def getSoldProduct(self, transaction_id):
         sql = "select * from soldproduct join products on soldProduct.product_id = products.product_id where transaction_id = %s"
         values = [transaction_id]
         return self.getAll(sql, values)

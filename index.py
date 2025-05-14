@@ -30,19 +30,12 @@ class MyMainWindow(QMainWindow):
     
 
     def showCashier(self ):
-        self.cashier = cashierUi()
+        self.cashier = cashierUi()  
         self.cashier.setupUi(self)
-        self.cashier.btn_scan.clicked.connect(self.showCashierHome)
-        self.cashier.btn_history.clicked.connect(self.showCashierRecieptHistory)
-        self.cashier.btn_logout.clicked.connect(self.showLoginPage)
 
-    
     def showAdminAssistant(self ):
         self.adminAI = adminAssistant()
         self.adminAI.setupUi(self)
-        self.adminAI.homeButton.clicked.connect(self.showAdminDashboard)
-    
-       
 
     def showCashierReciept(self, transaction_id):
         self.cashierReceipt = cashierReciptUi(transaction_id)
